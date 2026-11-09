@@ -45,9 +45,9 @@ public class Main {
         // ---------- 2) The doctor builds a question bank ----------
         QuestionBank bank = doctor.createQuestionBank("Midterm bank");
 
-        MCQ mcq = new MCQ(1, "Which keyword reads data from a table?", 5, false);
+        MCQ mcq = new MCQ(1, "Which keyword reads data from a table?", 5, true);
         Option select = new Option(1, "SELECT", true);
-        Option delete = new Option(2, "DELETE", false);
+        Option delete = new Option(2, "DELETE", true);
         Option drop = new Option(3, "DROP", false);
         mcq.addOption(select);
         mcq.addOption(delete);
@@ -74,9 +74,9 @@ public class Main {
 
         // Save each answer as soon as the student answers it
         StudentAnswer a1 = new StudentAnswer(mcq);
-        a1.setSelectedOptions(List.of(select));        // correct
+        a1.setSelectedOptions(List.of(select , delete , drop));        // correct
         StudentAnswer a2 = new StudentAnswer(tf);
-        a2.setTrueFalseAnswer(false);                  // wrong
+        a2.setTrueFalseAnswer(true);                  // wrong
         marwanAttempt.addAnswer(a1);
         marwanAttempt.addAnswer(a2);
 
@@ -124,5 +124,7 @@ public class Main {
         }
     }
 }
+
+// This is comment by Marwan
 
 // This is comment by Marwan
