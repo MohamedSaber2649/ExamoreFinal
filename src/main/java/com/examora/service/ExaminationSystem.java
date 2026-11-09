@@ -41,7 +41,7 @@ public class ExaminationSystem {
     }
 
     // Enrolls the student in the course; false if either is missing or already enrolled
-    public boolean enrollStudent(int studentId, int courseId) {
+    public boolean enrollStudent(String studentId, String courseId) {
         Student student = findStudent(studentId);
         Course course = findCourse(courseId);
         if (student == null || course == null || isEnrolled(student, courseId))
@@ -62,18 +62,18 @@ public class ExaminationSystem {
     }
 
     // Exams of this course that are open right now
-    public List<Exam> getAvailableExams(int courseId) {
+    public List<Exam> getAvailableExams(String courseId) {
         List<Exam> result = new ArrayList<>();
         for (Exam e : exams) {
             Course course = e.getQuestionBank().getCourse();
-            if (course != null && course.getId() == courseId && e.isOpen())
+            if (course != null && course.getId().equals( courseId) && e.isOpen())
                 result.add(e);
         }
         return result;
     }
 
     // Starts a new attempt (the student's clock starts here)
-    public ExamAttempt startExam(int studentId, int examId) {
+    public ExamAttempt startExam(String studentId, String examId) {
         Student student = findStudent(studentId);
         if (student == null)
             throw new IllegalArgumentException("Student not found: " + studentId);
@@ -92,7 +92,7 @@ public class ExaminationSystem {
         if (findAttempt(studentId, examId) != null)
             throw new IllegalStateException("Student already attempted this exam.");
 
-        ExamAttempt attempt = new ExamAttempt(nextAttemptId++, student, exam);
+        ExamAttempt attempt = new ExamAttempt(student, exam);
         examAttempts.add(attempt);
         student.getExamAttempts().add(attempt);
         return attempt;
@@ -100,7 +100,7 @@ public class ExaminationSystem {
 
     // Adds the given answers (may be null), then closes and grades the attempt.
     // The GUI should call attempt.addAnswer(...) after every question and pass null here.
-    public boolean submitAttempt(int attemptId, List<StudentAnswer> answers) {
+    public boolean submitAttempt(String attemptId, List<StudentAnswer> answers) {
         ExamAttempt attempt = findAttemptById(attemptId);
         if (attempt == null || attempt.isSubmitted())
             return false;
@@ -114,63 +114,63 @@ public class ExaminationSystem {
     }
 
     // The student's attempt of this exam, or null if he never started it
-    public ExamAttempt getStudentResult(int studentId, int examId) {
+    public ExamAttempt getStudentResult(String studentId, String examId) {
         return findAttempt(studentId, examId);
     }
 
     // ---------- helpers ----------
 
-    private boolean isEnrolled(Student student, int courseId) {
+    private boolean isEnrolled(Student student, String courseId) {
         for (Course c : student.getCourses()) {
-            if (c.getId() == courseId)
+            if (c.getId().equals( courseId))
                 return true;
         }
         return false;
     }
 
-    private Student findStudent(int id) {
+    private Student findStudent(String id) {
         for (Student s : students) {
-            if (s.getId() == id)
+            if (s.getId() .equals(id))
                 return s;
         }
         return null;
     }
 
-    private Doctor findDoctor(int id) {
+    private Doctor findDoctor(String id) {
         for (Doctor d : doctors) {
-            if (d.getId() == id)
+            if (d.getId().equals( id))
                 return d;
         }
         return null;
     }
 
-    private Course findCourse(int id) {
+    private Course findCourse(String id) {
         for (Course c : courses) {
-            if (c.getId() == id)
+            if (c.getId().equals( id))
                 return c;
         }
         return null;
     }
 
-    private Exam findExam(int id) {
+    private Exam findExam(String id) {
         for (Exam e : exams) {
-            if (e.getId() == id)
+            if (e.getId().equals( id))
                 return e;
         }
         return null;
     }
 
-    private ExamAttempt findAttemptById(int id) {
+    private ExamAttempt findAttemptById(String id) {
         for (ExamAttempt a : examAttempts) {
-            if (a.getId() == id)
+            if (a.getId().equals( id))
                 return a;
         }
         return null;
     }
 
-    private ExamAttempt findAttempt(int studentId, int examId) {
+    private ExamAttempt findAttempt(String studentId, String examId) {
         for (ExamAttempt a : examAttempts) {
-            if (a.getStudent().getId() == studentId && a.getExam().getId() == examId)
+            if (a.getStudent().getId().equals( studentId) && a.getExam().getId().equals( examId))
                 return a;
         }
         return null;

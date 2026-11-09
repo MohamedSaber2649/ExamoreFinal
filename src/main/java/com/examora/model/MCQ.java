@@ -7,25 +7,21 @@ public class MCQ extends Question {
     private List<Option> options = new ArrayList<>();
     private boolean allowMultipleCorrect;
 
-    public MCQ(int id, String header, double mark, boolean allowMultipleCorrect) {
-        super(id, header, mark);
-        this.allowMultipleCorrect = allowMultipleCorrect;
-    }
-
     public MCQ(String header, double mark, boolean allowMultipleCorrect) {
-        this(0, header, mark, allowMultipleCorrect);
+        super(header, mark);
+        this.allowMultipleCorrect = allowMultipleCorrect;
     }
 
     // addOption in Option
     public void addOption(Option option) {
         if (option == null) throw new IllegalArgumentException("Option cannot be null.");
-        if (options.contains(option)) throw new IllegalArgumentException("Option already exists.");
+        if (options.equals(option)) throw new IllegalArgumentException("Option already exists.");
         options.add(option);
     }
 
     // extra if doctor want to remove the option is written unCorrect  [✓ صح] [🗑]
-    public boolean removeOption(int id) {
-        return options.removeIf(o -> o.getId() == id);
+    public boolean removeOption(String id) {
+        return options.removeIf(o -> o.getId().equals(id));
     }
 
     @Override
@@ -36,16 +32,23 @@ public class MCQ extends Question {
         // if is list ==> create list for it to check if Option or not
         List<?> selected = (List<?>) answer;
         // validation if student choose multiple answer but multiple answer feature is not open
-        if (!allowMultipleCorrect && selected.size() != 1)
+
+        /*
+        in case allow false ==> radio button
+        in case allow true ==> check box
+        */
+
+        if (!allowMultipleCorrect && selected.size() != 1)// 0 2 3 4 5 6
             return false;
+
         for (Option o : options) {
             boolean chosen = false;
             for (Object item : selected) {
 
                 if (item instanceof Option) {
                     Option s = (Option) item;
-                    if (s.getId() == o.getId()) {
-                        chosen = true;
+                    if (s.getId() .equals(o.getId())) {
+                        return true;
                     }
                 }
             }
@@ -57,7 +60,7 @@ public class MCQ extends Question {
 
     @Override
     public void display() {
-        super.display();
+        System.out.println(getHeader()+" Mark : "+getMark());
         for (int i = 0; i < options.size(); i++)
             System.out.println("   " + (i + 1) + ") " + options.get(i).getText());
         if (allowMultipleCorrect)

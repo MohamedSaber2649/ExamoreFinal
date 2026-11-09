@@ -2,30 +2,25 @@ package com.examora.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class StudentAnswer {
-    private int id;
+    private String id;
     private Question question;
     private List<Option> selectedOptions = new ArrayList<>(); // used for MCQ
     private Boolean trueFalseAnswer;                          // used for True/False (null = not answered)
     private double awardedMark;
 
-    public StudentAnswer(int id, Question question) {
-        setId(id);
+    public StudentAnswer(Question question) {
+        setId(UUID.randomUUID().toString());
         setQuestion(question);
     }
 
-    public StudentAnswer(Question question) {
-        this(0, question);
-    }
-
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
-        if (id < 0)
-            throw new IllegalArgumentException("ID cannot be negative.");
+    public void setId(String id) {
         this.id = id;
     }
 

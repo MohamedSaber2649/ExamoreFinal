@@ -1,27 +1,23 @@
 package com.examora.model;
 
+import java.util.UUID;
+
 public abstract class Person {
-    private int id;
+    private String id;
     private String name;
     private String email;
 
-    public Person(int id, String name, String email) {
-        setId(id);
+    public Person(String name, String email) {
+        setId(UUID.randomUUID().toString());
         setName(name);
         setEmail(email);
     }
 
-    public Person(String name, String email) {
-        this(0, name, email);
-    }
-
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
-        if (id < 0)
-            throw new IllegalArgumentException("ID cannot be negative.");
+    public void setId(String id) {
         this.id = id;
     }
 

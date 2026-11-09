@@ -3,9 +3,10 @@ package com.examora.model;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ExamAttempt {
-    private int id;
+    private String id;
     private Student student;
     private Exam exam;
     private List<StudentAnswer> studentAnswers = new ArrayList<>();
@@ -14,23 +15,19 @@ public class ExamAttempt {
     private double totalMark;
     private boolean isSubmitted;
 
-    // Creating a new attempt
-    public ExamAttempt(int id, Student student, Exam exam) {
-        this(id, student, exam, LocalDateTime.now());
-    }
 
     // Loading an existing attempt from Database
-    public ExamAttempt(int id, Student student, Exam exam, LocalDateTime startTime) {
-        setId(id);
+    public ExamAttempt(String Id, Student student, Exam exam, LocalDateTime startTime) {
+        setId(Id);
         setStudent(student);
         setExam(exam);
         setStartTime(startTime);
     }
 
-    // Creating a new attempt without ID
-    public ExamAttempt(Student student, Exam exam) {
-        this(0, student, exam);
+    public ExamAttempt(Student student, Exam exam){
+       this(UUID.randomUUID().toString(),student,exam,LocalDateTime.now());
     }
+
 
     // True when the student's time is over: the duration has passed OR the exam's end date has passed
     public boolean isTimeOver() {
@@ -99,13 +96,11 @@ public class ExamAttempt {
         return totalMark;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
-        if (id < 0)
-            throw new IllegalArgumentException("ID cannot be negative.");
+    public void setId(String id) {
         this.id = id;
     }
 

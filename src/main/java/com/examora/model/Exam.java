@@ -4,9 +4,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 public class Exam {
-    private int id;
+    private String id;
     private String title;
     private QuestionBank questionBank;
     private LocalDateTime startDate;
@@ -16,8 +17,8 @@ public class Exam {
     private int numberOfQuestions;
     private List<Question> questions = new ArrayList<>();
 
-    public Exam(int id, String title, QuestionBank questionBank, LocalDateTime startDate, LocalDateTime endDate, int duration, double totalMark, int numberOfQuestions) {
-        setId(id);
+    public Exam( String title, QuestionBank questionBank, LocalDateTime startDate, LocalDateTime endDate, int duration, double totalMark, int numberOfQuestions) {
+        setId(UUID.randomUUID().toString());
         setTitle(title);
         setQuestionBank(questionBank);
         setStartDate(startDate);
@@ -27,16 +28,15 @@ public class Exam {
         setNumberOfQuestions(numberOfQuestions);
     }
 
-    public Exam(String title, QuestionBank questionBank, LocalDateTime startDate, LocalDateTime endDate, int duration, double totalMark, int numberOfQuestions) {
-        this(0, title, questionBank, startDate, endDate, duration, totalMark, numberOfQuestions);
-    }
+//    public Exam(String title, QuestionBank questionBank, LocalDateTime startDate, LocalDateTime endDate, int duration, double totalMark, int numberOfQuestions) {
+//        this(0, title, questionBank, startDate, endDate, duration, totalMark, numberOfQuestions);
+//    }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
-        if (id < 0) throw new IllegalArgumentException("ID cannot be negative.");
+    public void setId(String id) {
         this.id = id;
     }
 

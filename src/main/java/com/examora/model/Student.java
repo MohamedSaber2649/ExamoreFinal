@@ -8,14 +8,9 @@ public class Student extends Person {
     private List<Course> courses = new ArrayList<>();
     private List<ExamAttempt> examAttempts = new ArrayList<>();
 
-    public Student(int id, String name, String email) {
-        super(id, name, email);
-    }
-
     public Student(String name, String email) {
         super(name, email);
     }
-
     public List<Course> getCourses() {
         return courses;
     }
@@ -28,5 +23,4 @@ public class Student extends Person {
     public String toString() {
         return "Student { id : " + getId() + ", name : '" + getName() + "'}";
     }
-
 }

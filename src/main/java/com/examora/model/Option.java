@@ -1,27 +1,30 @@
 package com.examora.model;
 
+import java.util.Objects;
+import java.util.UUID;
+
 public class Option {
-    private int id;
+    private String id;
     private String text;
     private boolean correct;
 
-    public Option(int id, String text, boolean correct) {
+    // for selection
+    public Option(String id, String text, boolean correct) {
         setId(id);
         setText(text);
         this.correct = correct;
     }
 
+    // for insert in database
     public Option(String text, boolean correct) {
-        this(0, text, correct);
+        this(UUID.randomUUID().toString(),text,correct);
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
-        if (id < 0)
-            throw new IllegalArgumentException("ID cannot be negative.");
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -46,6 +49,12 @@ public class Option {
     @Override
     public String toString() {
         return "Option { id : " + id + ", text :'" + text + "'}";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Option option)) return false;
+        return   Objects.equals(text.toLowerCase(), option.text.toLowerCase());
     }
 
 }

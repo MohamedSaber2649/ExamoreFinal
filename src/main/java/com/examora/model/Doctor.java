@@ -4,17 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Doctor extends Person {
-    private static int nextBankId = 1;  // to generate the Bank id but when use database we remove this
     private List<QuestionBank> questionBanks = new ArrayList<>();
     private Course course;
 
-    public Doctor(int id, String name, String email, Course course) {
-        super(id, name, email);
-        setCourse(course);
-    }
-
-    public Doctor(String name, String email, Course course) {
-        super(name, email);
+    public Doctor( String name, String email, Course course) {
+        super( name, email);
         setCourse(course);
     }
 
@@ -40,14 +34,14 @@ public class Doctor extends Person {
         if (course == null) {
             throw new IllegalStateException("Doctor must choose a course before creating a question bank.");
         }
-        QuestionBank bank = new QuestionBank(nextBankId++, title, course, this);
+        QuestionBank bank = new QuestionBank(title, course, this);
         questionBanks.add(bank);
         return bank;
     }
 
-    public QuestionBank getBankById(int id) {
+    public QuestionBank getBankById(String id) {
         for (QuestionBank b : questionBanks) {
-            if (b.getId() == id) {
+            if (b.getId().equals(id)) {
                 return b;
             }
         }
@@ -62,12 +56,12 @@ public class Doctor extends Person {
         questionBanks.add(bank);
     }
 
-    public boolean updateQuestionBank(int id, QuestionBank bank) {
+    public boolean updateQuestionBank(String id, QuestionBank bank) {
         if (bank == null) {
             throw new IllegalArgumentException("bank cannot be null.");
         }
         for (int i = 0; i < questionBanks.size(); i++) {
-            if (questionBanks.get(i).getId() == id) {
+            if (questionBanks.get(i).getId().equals(id)) {
                 bank.setId(id);
                 bank.setDoctor(this);
                 questionBanks.set(i, bank);
@@ -77,9 +71,9 @@ public class Doctor extends Person {
         return false;
     }
 
-    public boolean deleteQuestionBank(int id) {
+    public boolean deleteQuestionBank(String id) {
         // filter  => remove the bank if the getId == id
-        return questionBanks.removeIf((b) -> b.getId() == id);
+        return questionBanks.removeIf((b) -> b.getId().equals( id));
     }
 
     //  ملهاش لازمه نخلي عند الدكتور choose course لان بتعمل اللي setCourse بتعمله!!!

@@ -2,28 +2,23 @@ package com.examora.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Course {
-    private int id;
+    private String id;
     private String name;
     private final List<Doctor> doctors = new ArrayList<>();
 
-    public Course(int id, String name) {
-        setId(id);
+    public Course( String name) {
+        setId(UUID.randomUUID().toString());
         setName(name);
     }
 
-    public Course(String name) {
-        this(0, name);
-    }
-
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
-        if (id < 0)
-            throw new IllegalArgumentException("ID cannot be negative.");
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -36,7 +31,6 @@ public class Course {
             throw new IllegalArgumentException("Course name is required.");
         this.name = name.trim();
     }
-
 
     public List<Doctor> getDoctors() {
         return doctors;

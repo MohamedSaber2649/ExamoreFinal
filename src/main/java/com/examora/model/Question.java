@@ -1,29 +1,25 @@
 package com.examora.model;
+import java.util.Objects;
+import java.util.UUID;
 
 public abstract class Question {
-    private int id;
+    private String id;
     private String header;
     private double mark;
 
-    public Question(int id, String header, double mark) { // when I select from the database
-        setId(id);
+    public Question(String header, double mark) { // when I select from the database
+        setId(UUID.randomUUID().toString()); // for generate ronmdom id
         setHeader(header);
         setMark(mark);
     }
 
-    public Question(String header, double mark) { // when iam insert in database
-        this(0, header, mark);
-    }
-
     public abstract boolean checkAnswer(Object answer);
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
-        if (id < 0)
-            throw new IllegalArgumentException("ID cannot be negative.");
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -47,13 +43,18 @@ public abstract class Question {
         this.mark = mark;
     }
 
-    public void display() {
-        System.out.println("Q" + id + ": " + header + " (" + mark + " marks)");
-    }
+    public abstract void display() ;
 
     // the display and toString is Same
     @Override
     public String toString() {
         return "Question { id : " + id + ", header : '" + header + "', mark : " + mark + "}";
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Question question)) return false;
+        return  Objects.equals(header.toLowerCase(), question.header.toLowerCase());
+    }
+
 }

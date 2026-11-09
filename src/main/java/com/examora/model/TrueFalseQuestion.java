@@ -3,13 +3,9 @@ package com.examora.model;
 public class TrueFalseQuestion extends Question {
     private boolean correctAnswer;
 
-    public TrueFalseQuestion(int id, String header, double mark, boolean correctAnswer) {
-        super(id, header, mark);
-        this.correctAnswer = correctAnswer;
-    }
-
     public TrueFalseQuestion(String header, double mark, boolean correctAnswer) {
-        this(0, header, mark, correctAnswer);
+        super(header, mark);
+        this.correctAnswer = correctAnswer;
     }
 
     @Override
@@ -32,7 +28,7 @@ public class TrueFalseQuestion extends Question {
 
     @Override
     public void display() {
-        super.display();
-        System.out.println("   [True / False]");
+        System.out.println(getHeader()+"Mark: "+ getMark());
+        System.out.println("[True / False]");
     }
 }
